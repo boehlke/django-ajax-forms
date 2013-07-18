@@ -645,6 +645,8 @@ class BaseAjaxModelForm(ModelForm):
     def _attr_to_slug(self, attr):
         attr = attr.strip()
         self.__attr_to_slug[attr] = slug = re.sub('[^0-9a-zA-Z_]+', '-', attr)
+        if slug in self.__slug_to_attr and self.__slug_to_attr[slug] != attr:
+            raise Exception("fatal: duplicate slug")
         self.__slug_to_attr[slug] = attr
         return self.__attr_to_slug[attr]
         
